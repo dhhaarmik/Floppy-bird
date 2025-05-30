@@ -15,7 +15,6 @@ let animationId = null;
 let highScore = localStorage.getItem('flappyHighScore') || 0;
 highscoreDisplay.innerText = `High Score: ${highScore}`;
 
-// Setup controls for desktop and touch devices
 document.removeEventListener('keydown', flap);
 document.removeEventListener('touchstart', flap);
 
@@ -73,7 +72,6 @@ function createPipe() {
   const pipeTop = document.createElement('div');
   const pipeBottom = document.createElement('div');
 
-  // Make gap reduce slowly with progress
   const dynamicGap = Math.max(120, pipeGap - score * 3);
   const pipeHeight = Math.floor(Math.random() * (window.innerHeight - dynamicGap - 200)) + 50;
 
@@ -107,7 +105,6 @@ function createPipe() {
       return;
     }
 
-    // Collision detection
     if (
       pipeObj.pipeX < 140 && pipeObj.pipeX + 80 > 100 &&
       (bird.offsetTop < pipeTop.offsetHeight ||
@@ -116,7 +113,6 @@ function createPipe() {
       endGame();
     }
 
-    // Score increase and speed up pipes gradually
     if (pipeObj.pipeX + pipeSpeed < 100 && !pipeObj.passed) {
       pipeObj.passed = true;
       score++;
@@ -137,7 +133,6 @@ function gameLoop() {
   birdY += velocity;
   bird.style.top = `${birdY}px`;
 
-  // Check ground and ceiling collisions
   if (birdY < 0 || birdY + 40 > window.innerHeight) {
     endGame();
     return;
