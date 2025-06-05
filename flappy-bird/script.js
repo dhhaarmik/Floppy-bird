@@ -58,7 +58,7 @@ function startGame() {
   isGameOver = false;
   score = 0;
   pipeSpeed = 2;
-  pipeGap = 200;
+  pipeGap = 240; // Increased initial gap for easier start
 
   bird.style.top = `${birdY}px`;
   scoreDisplay.innerText = `Score: ${score}`;
@@ -68,12 +68,26 @@ function startGame() {
   animationId = requestAnimationFrame(gameLoop);
 }
 
+// Function to compute the current pipe gap based on score
+function getCurrentPipeGap(score) {
+  // Start with a large gap, decrease linearly, but never below 110px
+  const initialGap = 240;
+  const minGap = 110;
+  const decreasePerScore = 5; // Decrease 5px per point
+  let gap = initialGap - score * decreasePerScore;
+  return Math.max(gap, minGap);
+}
+
 function createPipe() {
   const pipeTop = document.createElement('div');
   const pipeBottom = document.createElement('div');
 
-  const dynamicGap = Math.max(120, pipeGap - score * 3);
-  const pipeHeight = Math.floor(Math.random() * (window.innerHeight - dynamicGap - 200)) + 50;
+  // Use the dynamic gap calculation
+  const dynamicGap = getCurrentPipeGap(score);
+
+  // Make sure the pipes always fit on the screen, leaving space for the gap and border
+  const maxPipeTopHeight = window.innerHeight - dynamicGap - 120;
+  const pipeHeight = Math.floor(Math.random() * maxPipeTopHeight) + 50;
 
   pipeTop.classList.add('pipe', 'top');
   pipeBottom.classList.add('pipe', 'bottom');
