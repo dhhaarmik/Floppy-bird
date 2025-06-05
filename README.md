@@ -12,7 +12,7 @@ A simple Flappy Bird clone built with HTML, CSS, and JavaScript. Fly the bird th
 - Responsive design for desktop and mobile browsers
 
 ## 🚀 Live Demo
-https://fly-high.tiiny.site/
+https://flyhighh.tiiny.site
 
 
 
