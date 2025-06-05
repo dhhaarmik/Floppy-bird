@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
 body {
   margin: 0;
   overflow: hidden;
-  background-color: yellow;
-  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #74ebfd 0%, #ffffff 90%);
+  font-family: 'Luckiest Guy', Arial, sans-serif;
 }
 
 #game-container {
@@ -12,22 +14,179 @@ body {
   overflow: hidden;
 }
 
+#background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+.cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.cloud1 {
+  width: 120px;
+  height: 60px;
+  left: 12vw;
+  top: 8vh;
+  box-shadow: 60px 0 0 10px #fff, 30px 20px 0 10px #fff;
+  animation: cloudMove 40s linear infinite;
+}
+
+.cloud2 {
+  width: 80px;
+  height: 40px;
+  left: 60vw;
+  top: 18vh;
+  box-shadow: 30px 0 0 8px #fff, 15px 15px 0 6px #fff;
+  animation: cloudMove 60s linear infinite reverse;
+}
+
+.cloud3 {
+  width: 90px;
+  height: 45px;
+  left: 80vw;
+  top: 12vh;
+  box-shadow: 35px 0 0 8px #fff, 20px 15px 0 6px #fff;
+  animation: cloudMove 50s linear infinite;
+}
+
+@keyframes cloudMove {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-70vw);
+  }
+}
+
+#ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 70px;
+  background: repeating-linear-gradient(-45deg,
+      #83b14a 0 30px,
+      #7ac142 30px 60px);
+  border-top: 6px solid #5a9132;
+  z-index: 10;
+}
+
 #bird {
   position: absolute;
-  width: 40px;
+  width: 48px;
   height: 40px;
-  background-color: blue;
-  top: 50%;
   left: 100px;
+  top: 50%;
   transform: translateY(-50%);
-  border-radius: 50%;
   display: none;
+  z-index: 20;
+  /* Bird Body */
+  background: radial-gradient(circle at 40% 65%, #ffd93a 60%, #f5b800 100%);
+  border-radius: 50% 60% 50% 50%/50% 50% 80% 60%;
+  box-shadow: 0 6px 0 #e3a700;
+  /* Add bird "wing" */
+  overflow: visible;
+}
+
+#bird::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 14px;
+  width: 24px;
+  height: 16px;
+  background: #fff8aa;
+  border-radius: 60% 80% 60% 90%;
+  box-shadow: 0 4px 0 #e3a700;
+  transform: rotate(-20deg);
+  animation: wingFlap 0.35s infinite;
+}
+
+#bird::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 15px;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid #444;
+}
+
+@keyframes wingFlap {
+
+  0%,
+  100% {
+    transform: rotate(-18deg) scaleY(1);
+  }
+
+  50% {
+    transform: rotate(-35deg) scaleY(0.7);
+  }
+}
+
+/* Bird Eye */
+#bird span {
+  position: absolute;
+  right: 6px;
+  top: 16px;
+  width: 8px;
+  height: 8px;
+  background: #222;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* Beak using a pseudo-element */
+#bird span.beak {
+  left: 42px;
+  top: 19px;
+  width: 12px;
+  height: 8px;
+  background: orange;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  border-radius: 0 40% 40% 0;
 }
 
 .pipe {
   position: absolute;
   width: 80px;
-  background-color: red;
+  min-height: 80px;
+  background: linear-gradient(to bottom, #51c420 0%, #3ca10b 100%);
+  border: 6px solid #267907;
+  border-radius: 20px;
+  z-index: 15;
+  box-shadow: 0 6px 12px rgba(44, 87, 14, 0.18);
+  overflow: visible;
+}
+
+.pipe::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  height: 16px;
+  background: linear-gradient(to bottom, #a2e74a 0%, #74c500 70%);
+  border-radius: 12px 12px 10px 10px;
+}
+
+.pipe.top::after {
+  top: 0;
+}
+
+.pipe.bottom::after {
+  bottom: 0;
+  transform: rotate(180deg);
 }
 
 .top {
@@ -35,26 +194,48 @@ body {
 }
 
 .bottom {
-  bottom: 0;
+  bottom: 70px;
 }
 
 #score {
   position: absolute;
-  top: 10px;
-  left: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.7rem;
+  font-family: 'Luckiest Guy', Arial, sans-serif;
+  color: #fff;
+  text-shadow: 2px 3px 0 #3b3b3b;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 10px 30px;
+  border-radius: 2rem;
+  border: 3px solid #fff;
+  min-width: 80px;
+  text-align: center;
   display: none;
+  z-index: 100;
 }
 
 #highscore-display {
   position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 24px;
+  top: 25px;
+  right: 40px;
+  font-size: 1.5rem;
+  color: #fff;
+  background: #f19a3e;
+  padding: 7px 18px;
+  border-radius: 1.5rem;
+  border: 2px solid #fff;
+  box-shadow: 2px 2px 0 #c97a27;
+  font-family: 'Luckiest Guy', Arial, sans-serif;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#highscore-display span {
   font-weight: bold;
-  color: #000;
 }
 
 #countdown {
@@ -62,22 +243,44 @@ body {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 48px;
+  font-size: 4rem;
   font-weight: bold;
-  color: #000;
+  color: #f19a3e;
+  text-shadow: 2px 3px 0 #fff;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 1rem;
+  padding: 20px 35px;
   display: none;
+  z-index: 400;
 }
 
 #start-btn,
 #restart-btn {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 15px 30px;
-  font-size: 24px;
+  padding: 18px 54px;
+  font-size: 2.1rem;
+  font-family: 'Luckiest Guy', Arial, sans-serif;
+  background: linear-gradient(90deg, #f19a3e 45%, #ffe066 100%);
+  color: #fff;
+  border: none;
+  border-radius: 2.5rem;
+  box-shadow: 0 4px 0 #e98e00, 0 8px 16px #0002;
   cursor: pointer;
-  z-index: 10;
+  z-index: 200;
+  transition: transform 0.13s, box-shadow 0.13s;
+  outline: none;
+  letter-spacing: 1px;
+  filter: drop-shadow(0 2px 8px #c97a2740);
+}
+
+#start-btn:hover,
+#restart-btn:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  box-shadow: 0 1px 0 #e98e00, 0 10px 24px #0002;
+  background: linear-gradient(90deg, #ffe066 35%, #ffbe40 100%);
 }
 
 #restart-btn {
@@ -87,28 +290,36 @@ body {
 #celebration-popup {
   display: none;
   position: absolute;
-  top: 40%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 36px;
-  color: green;
-  background-color: white;
-  padding: 20px 40px;
-  border: 4px solid green;
-  border-radius: 12px;
+  font-size: 2.3rem;
+  color: #fff;
+  background: #3dc96b;
+  padding: 30px 60px;
+  border: 5px solid #fff;
+  border-radius: 22px;
   z-index: 1000;
-  animation: popFade 2s ease-out;
+  animation: popFade 2.2s cubic-bezier(0.2, 1, 0.3, 1);
+  box-shadow: 0 4px 28px #2f7b38a0, 0 0 0 8px #fff3;
 }
 
 @keyframes popFade {
   0% {
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.7);
     opacity: 0;
   }
-  30% {
-    transform: translate(-50%, -50%) scale(1.1);
+
+  15% {
+    transform: translate(-50%, -50%) scale(1.15);
     opacity: 1;
   }
+
+  80% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0;
